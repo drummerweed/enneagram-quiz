@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  enneagram-quiz:
+    build: .
+    container_name: enneagram-quiz-app
+    ports:
+      - "19814:3000"
+    volumes:
+      - ./data:/app/prisma/data
+    environment:
+      - DATABASE_URL=file:/app/prisma/data/production.db
+    restart: unless-stopped

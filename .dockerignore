@@ -1,0 +1,27 @@
+# Dependencies
+node_modules
+
+# Next.js build output
+.next
+
+# Local dev database (production DB lives in the Docker volume)
+prisma/dev.db
+prisma/dev.db-journal
+
+# Seed & dev scripts
+seed.ts
+
+# Git
+.git
+.gitignore
+
+# Env files (set env vars directly in docker-compose.yml)
+.env.local
+.env.development
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode
+.idea
