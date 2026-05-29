@@ -30,8 +30,8 @@ export default async function QuizPage({ params }: { params: Promise<{ id: strin
   }, {} as Record<number, number>);
 
   return (
-    <main className="min-h-[100dvh] w-full flex items-center justify-center p-4 sm:p-6 lg:p-12 bg-[#f4f5f7]">
+    <div className="w-full">
       <QuizClient sessionId={id} questions={safeQuestions} initialAnswers={initialAnswers} />
-    </main>
+    </div>
   );
 }

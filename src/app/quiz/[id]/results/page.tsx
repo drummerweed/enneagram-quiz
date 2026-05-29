@@ -46,7 +46,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
   const notionConfigured = !!notionSetting?.value;
 
   return (
-    <main className="min-h-[100dvh] w-full flex flex-col p-8 sm:p-12 bg-white">
+    <div className="w-full">
       <div className="max-w-[700px] w-full mx-auto mt-10">
         <div className="flex items-start justify-between mb-8 px-1 gap-4">
           <h1 className="text-2xl font-bold text-black">Assessment Results: {session.name}</h1>
@@ -54,7 +54,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
             <ShareToNotionButton sessionId={id} />
           )}
         </div>
-        <div className="border border-gray-200">
+        <div className="border border-gray-200 bg-white shadow-sm rounded-xl overflow-hidden">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-gray-200">
@@ -73,7 +73,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
           </table>
         </div>
         
-        <div className="mt-12 flex items-center gap-8">
+        <div className="mt-12 flex items-center gap-8 mb-16">
           <Link href="/admin" className="inline-flex items-center gap-1.5 text-slate-400 hover:text-slate-600 text-sm font-semibold transition-colors">
             ← Back to Admin
           </Link>
@@ -83,6 +83,6 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
           </Link>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

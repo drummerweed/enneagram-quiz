@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-import { TableProperties, BookOpen, MessageSquarePlus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { TableProperties, BookOpen, MessageSquarePlus, LogOut } from 'lucide-react';
 import AdminClient from './AdminClient';
 import NotionSettings from './NotionSettings';
 import QuestionsManager from './QuestionsManager';
@@ -25,6 +26,13 @@ const navItems: { id: Tab; label: string; icon: React.ReactNode }[] = [
 
 export default function AdminLayout({ initialResults }: { initialResults: ResultRow[] }) {
   const [tab, setTab] = useState<Tab>('results');
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    router.push('/login');
+    router.refresh();
+  };
 
   return (
     <div className="flex min-h-screen bg-[#f7f8fa]">
@@ -45,8 +53,15 @@ export default function AdminLayout({ initialResults }: { initialResults: Result
             {item.label}
           </button>
         ))}
-        <div className="mt-auto pb-6 px-3">
-          <a href="/" className="text-[11px] text-slate-300 hover:text-slate-500 font-semibold transition-colors">
+        <div className="mt-auto pb-6 px-3 flex flex-col gap-4">
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all w-full text-left text-slate-400 hover:text-slate-700 hover:bg-slate-50"
+          >
+            <LogOut className="w-4 h-4" />
+            Logout
+          </button>
+          <a href="/" className="text-[11px] text-slate-300 hover:text-slate-500 font-semibold transition-colors mt-2 text-center block">
             ← New Assessment
           </a>
         </div>
