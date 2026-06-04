@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { questions } from '@/lib/questions';
+import { getAllQuestions } from '@/lib/getAllQuestions';
 
 export async function GET(
   request: NextRequest,
@@ -22,6 +22,8 @@ export async function GET(
       return NextResponse.json({ error: 'Session not found' }, { status: 404 });
     }
 
+    const allQuestions = await getAllQuestions();
+
     // Initialize type scores
     const typeScores: Record<number, number> = {};
     const maxScorePerType: Record<number, number> = {};
@@ -31,14 +33,23 @@ export async function GET(
         maxScorePerType[i] = 0;
     }
 
-    // Question distribution
-    questions.forEach(q => {
+    // Question distribution for the questions actually asked in this session
+    let orderedIds: number[] = [];
+    try {
+      orderedIds = JSON.parse(session.questionOrder);
+    } catch { /* empty */ }
+
+    const sessionQuestions = orderedIds.length > 0 
+      ? orderedIds.map(qid => allQuestions.find(q => q.id === qid)).filter(Boolean) as typeof allQuestions
+      : allQuestions;
+
+    sessionQuestions.forEach(q => {
       maxScorePerType[q.type] += 5; // The max value user can pick is 5
     });
 
     // Tally user answers
     session.answers.forEach((answer: { questionId: number, value: number }) => {
-      const question = questions.find(q => q.id === answer.questionId);
+      const question = allQuestions.find(q => q.id === answer.questionId);
       if (question) {
         typeScores[question.type] += answer.value;
       }

@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { questions } from '@/lib/questions';
+import { getAllQuestions } from '@/lib/getAllQuestions';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { RefreshCcw } from 'lucide-react';
@@ -17,11 +17,13 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
     notFound();
   }
 
+  const allQuestions = await getAllQuestions();
+
   const typeScores: Record<number, number> = {};
   for (let i = 1; i <= 9; i++) typeScores[i] = 0;
   
   session.answers.forEach((answer: { questionId: number, value: number }) => {
-    const question = questions.find(q => q.id === answer.questionId);
+    const question = allQuestions.find(q => q.id === answer.questionId);
     if (question) typeScores[question.type] += answer.value;
   });
 

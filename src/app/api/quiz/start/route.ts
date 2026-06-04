@@ -24,8 +24,8 @@ async function selectQuestions(): Promise<number[]> {
     byType[i] = shuffle(byType[i]);
   }
 
-  // Select 200 total: base 22 per type, types 1 & 2 get 23 (200 = 9*22 + 2)
-  const TARGET = 200;
+  // Select 100 total: base 11 per type, type 1 gets 12 (100 = 9*11 + 1)
+  const TARGET = 100;
   const base = Math.floor(TARGET / 9);
   const extras = TARGET % 9;
 
